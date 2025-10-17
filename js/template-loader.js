@@ -17,12 +17,12 @@ const Templates = {
     
     async loadAll() {
         const templateNames = [
+            'device-item',
             'exhibitor-card',
+            'sync-modal-active',
+            'sync-modal-empty',
             'user-toggle',
             'users-dropdown',
-            'sync-modal-empty',
-            'sync-modal-active',
-            'device-item'
         ];
         
         await Promise.all(templateNames.map(name => this.load(name)));
