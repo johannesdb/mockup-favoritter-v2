@@ -3,9 +3,9 @@
         <div class="user-indicators">
             {{#each usersWhoFavorited}}
                 <div class="user-indicator" 
-                     data-user-name="{{#if this.customName}}{{this.customName}}{{else}}{{this.name}}{{/if}}" 
+                     data-user-name="{{displayName this}}" 
                      style="background: {{this.color}}">
-                    {{initials (if this.customName this.customName this.name)}}
+                    {{initials (displayName this)}}
                 </div>
             {{/each}}
         </div>

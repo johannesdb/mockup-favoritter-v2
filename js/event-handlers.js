@@ -522,3 +522,11 @@ window.cancelEdit = cancelEdit;
 window.startDeviceEdit = startDeviceEdit;
 window.saveDeviceName = saveDeviceName;
 window.cancelDeviceEdit = cancelDeviceEdit;
+
+// Expose for debugging
+window.debugState = function() {
+    console.log('myFavorites:', Array.from(myFavorites));
+    console.log('activeSharedUsers:', Array.from(activeSharedUsers));
+    console.log('sharedUsers:', sharedUsers);
+    console.log('showMyFavorites:', showMyFavorites);
+};
