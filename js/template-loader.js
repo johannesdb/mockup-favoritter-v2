@@ -19,7 +19,7 @@ const Templates = {
         const templateNames = [
             'exhibitor-card',
             'user-toggle',
-            'users-dropdown',
+            'user-dropdown',
             'sync-modal-empty',
             'sync-modal-active',
             'device-item'
@@ -47,5 +47,6 @@ Handlebars.registerHelper('includes', function(array, value) {
 });
 
 Handlebars.registerHelper('initials', function(name) {
+    if (!name) return '';
     return name.split(' ').map(n => n[0]).join('');
 });
