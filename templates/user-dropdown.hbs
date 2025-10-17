@@ -1,0 +1,37 @@
+<div class="user-toggle {{#if isActive}}active{{/if}}" 
+     data-user-id="{{id}}" 
+     style="color: {{color}}">
+    <div class="user-avatar" style="background: {{color}}">
+        {{initials displayName}}
+    </div>
+    <div class="user-info">
+        {{#if isEditing}}
+            <div class="edit-name-form">
+                <input 
+                    type="text" 
+                    class="edit-name-input" 
+                    id="editInput_{{id}}"
+                    value="{{displayName}}"
+                    placeholder="Navn"
+                />
+                <div class="edit-name-actions">
+                    <button class="save-name-btn" onclick="saveName({{id}})">✓</button>
+                    <button class="cancel-name-btn" onclick="cancelEdit()">✕</button>
+                </div>
+            </div>
+        {{else}}
+            <div class="user-name">
+                <span class="user-name-text">{{displayName}}</span>
+                <button class="user-settings-btn" data-user-id="{{id}}" id="userSettings_{{id}}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="12" cy="5" r="1"></circle>
+                        <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                </button>
+            </div>
+            <div class="user-count">{{favoritesCount}} favoritter</div>
+        {{/if}}
+    </div>
+    <div class="toggle-indicator"></div>
+</div>

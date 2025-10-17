@@ -1,0 +1,31 @@
+<div class="modal-header"><h2 class="modal-title">Synkronisering</h2></div>
+<div class="modal-content">
+    <div class="sync-devices-list">
+        <div class="sync-devices-title">Enheder i gruppen</div>
+        {{{deviceItems}}}
+    </div>
+
+```
+<div class="sync-qr-section">
+    <div class="sync-qr">📱</div>
+    <p style="margin-bottom: 12px; color: #666; font-size: 14px;">Del dette link med dine andre enheder:</p>
+    <div class="sync-url">https://energimesse.dk/sync?session=abc123xyz</div>
+    <button class="copy-url-btn" id="copySyncUrlBtn">Kopiér link</button>
+    <div class="modal-help">
+        <strong>Tilslut andre enheder:</strong><br>
+        • <strong>I browser:</strong> Åbn linket direkte<br>
+        • <strong>I PWA app:</strong> Gå til "Synkroniser enheder" → "Tilslut til gruppe" → indsæt linket
+        <br><br>
+        Favoritter synkroniseres automatisk hvert 5. minut (Last Write Wins).
+    </div>
+</div>
+
+{{#if showLeaveButton}}
+    <button class="leave-sync-btn" id="leaveSyncBtn">Forlad sync-gruppe</button>
+{{/if}}
+{{#if showDeleteButton}}
+    <button class="delete-sync-btn" id="deleteSyncBtn">Annuller</button>
+{{/if}}
+```
+
+</div>
