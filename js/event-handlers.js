@@ -40,6 +40,7 @@ function setupUsersToggleListeners() {
             // Don't toggle if clicking settings button or in edit mode
             if (e.target.closest('.user-settings-btn') || 
                 e.target.closest('.edit-name-form') ||
+                e.target.closest('.settings-menu-item') ||
                 editingUserId !== null) {
                 return;
             }
@@ -55,6 +56,12 @@ function setupUsersToggleListeners() {
     // Setup settings menu for each user
     document.querySelectorAll('.user-settings-btn').forEach(btn => {
         const userId = parseInt(btn.dataset.userId);
+        
+        // Stop propagation when clicking settings button
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
         
         const menuContent = `
             <div class="settings-menu-item" data-action="rename" data-user-id="${userId}">
