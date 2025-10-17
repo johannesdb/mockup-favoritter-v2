@@ -40,13 +40,16 @@ function setupUsersToggleListeners() {
             // Don't toggle if clicking settings button or in edit mode
             if (e.target.closest('.user-settings-btn') || 
                 e.target.closest('.edit-name-form') ||
-                e.target.closest('.settings-menu-item') ||
                 editingUserId !== null) {
                 return;
             }
+            
             e.preventDefault();
             e.stopPropagation();
+            
             const userId = parseInt(this.dataset.userId);
+            console.log('Toggle clicked for user:', userId); // DEBUG
+            
             if (!isNaN(userId)) {
                 toggleUser(userId);
             }
@@ -269,11 +272,16 @@ function toggleFavorite(id) {
 }
 
 function toggleUser(userId) {
+    console.log('toggleUser called with:', userId); // DEBUG
+    console.log('activeSharedUsers before:', Array.from(activeSharedUsers)); // DEBUG
+    
     if (activeSharedUsers.has(userId)) {
         activeSharedUsers.delete(userId);
     } else {
         activeSharedUsers.add(userId);
     }
+    
+    console.log('activeSharedUsers after:', Array.from(activeSharedUsers)); // DEBUG
     
     updateUsersButton();
     
@@ -284,6 +292,7 @@ function toggleUser(userId) {
         setTimeout(() => setupUsersToggleListeners(), 0);
     }
     
+    console.log('Calling renderExhibitors...'); // DEBUG
     renderExhibitors();
 }
 
