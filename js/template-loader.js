@@ -19,7 +19,7 @@ const Templates = {
         const templateNames = [
             'exhibitor-card',
             'user-toggle',
-            'user-dropdown',
+            'users-dropdown',
             'sync-modal-empty',
             'sync-modal-active',
             'device-item'
