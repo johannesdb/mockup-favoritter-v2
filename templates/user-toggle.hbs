@@ -2,7 +2,11 @@
      data-user-id="{{id}}" 
      style="color: {{color}}">
     <div class="user-avatar" style="background: {{color}}">
-        {{initials displayName}}
+        {{#if customName}}
+            {{initials customName}}
+        {{else}}
+            {{initials name}}
+        {{/if}}
     </div>
     <div class="user-info">
         {{#if isEditing}}
@@ -11,7 +15,7 @@
                     type="text" 
                     class="edit-name-input" 
                     id="editInput_{{id}}"
-                    value="{{displayName}}"
+                    value="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}"
                     placeholder="Navn"
                 />
                 <div class="edit-name-actions">
@@ -21,7 +25,7 @@
             </div>
         {{else}}
             <div class="user-name">
-                <span class="user-name-text">{{displayName}}</span>
+                <span class="user-name-text">{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}</span>
                 <button class="user-settings-btn" data-user-id="{{id}}" id="userSettings_{{id}}">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="1"></circle>
