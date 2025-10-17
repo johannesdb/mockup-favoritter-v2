@@ -89,6 +89,8 @@ function renderExhibitors() {
 }
 
 function renderUsersDropdownContent() {
+    console.log('renderUsersDropdownContent - activeSharedUsers:', Array.from(activeSharedUsers));
+    
     const hasUsers = sharedUsers.length > 0;
     
     const userToggles = sharedUsers.map(user => {
@@ -96,6 +98,8 @@ function renderUsersDropdownContent() {
         const isActive = activeSharedUsers.has(user.id);
         const isEditing = editingUserId === user.id;
         const favoritesCount = user.favorites.length;
+        
+        console.log(`User ${user.id} (${displayName}): isActive=${isActive}`);
         
         return Templates.render('user-toggle', {
             ...user,
