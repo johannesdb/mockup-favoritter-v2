@@ -1,37 +1,51 @@
-<div class="user-toggle {{#if isActive}}active{{/if}}" 
-     data-user-id="{{id}}" 
-     style="color: {{color}}">
-    <div class="user-avatar" style="background: {{color}}">
-        {{initials displayName}}
+{{#if hasUsers}}
+    <div class="dropdown-header">Vis favoritter fra:</div>
+    <div class="user-list">
+        {{{userToggles}}}
     </div>
-    <div class="user-info">
-        {{#if isEditing}}
-            <div class="edit-name-form">
-                <input 
-                    type="text" 
-                    class="edit-name-input" 
-                    id="editInput_{{id}}"
-                    value="{{displayName}}"
-                    placeholder="Navn"
-                />
-                <div class="edit-name-actions">
-                    <button class="save-name-btn" onclick="saveName({{id}})">✓</button>
-                    <button class="cancel-name-btn" onclick="cancelEdit()">✕</button>
-                </div>
-            </div>
-        {{else}}
-            <div class="user-name">
-                <span class="user-name-text">{{displayName}}</span>
-                <button class="user-settings-btn" data-user-id="{{id}}" id="userSettings_{{id}}">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="12" cy="5" r="1"></circle>
-                        <circle cx="12" cy="19" r="1"></circle>
-                    </svg>
-                </button>
-            </div>
-            <div class="user-count">{{favoritesCount}} favoritter</div>
-        {{/if}}
+    <button class="add-favorites-btn" id="addFavoritesBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Tilføj delte favoritter
+    </button>
+    <div class="add-favorites-input-section {{#if showAddInput}}show{{/if}}" id="addFavoritesInput">
+        <label class="input-label">Navn på deling:</label>
+        <input type="text" class="link-input" id="favoritesNameInput" placeholder="F.eks. Kollegaer fra Aarhus">
+        <label class="input-label" style="margin-top: 12px;">Indsæt delingslink:</label>
+        <input type="text" class="link-input" id="favoritesLinkInput" placeholder="https://energimesse.dk/share?id=abc123">
+        <div class="input-actions">
+            <button class="add-btn" id="submitFavoritesLink">Tilføj</button>
+            <button class="cancel-btn" id="cancelAddFavorites">Annuller</button>
+        </div>
     </div>
-    <div class="toggle-indicator"></div>
-</div>
+{{else}}
+    <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <div class="empty-state-title">Ingen delte favoritter endnu</div>
+        <div class="empty-state-text">Indsæt et delingslink fra en anden bruger for at se deres favoritter.</div>
+    </div>
+    <button class="add-favorites-btn" id="addFavoritesBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Tilføj delte favoritter
+    </button>
+    <div class="add-favorites-input-section {{#if showAddInput}}show{{/if}}" id="addFavoritesInput">
+        <label class="input-label">Navn på deling:</label>
+        <input type="text" class="link-input" id="favoritesNameInput" placeholder="F.eks. Kollegaer fra Aarhus">
+        <label class="input-label" style="margin-top: 12px;">Indsæt delingslink:</label>
+        <input type="text" class="link-input" id="favoritesLinkInput" placeholder="https://energimesse.dk/share?id=abc123">
+        <div class="input-actions">
+            <button class="add-btn" id="submitFavoritesLink">Tilføj</button>
+            <button class="cancel-btn" id="cancelAddFavorites">Annuller</button>
+        </div>
+    </div>
+{{/if}}
