@@ -50,3 +50,8 @@ Handlebars.registerHelper('initials', function(name) {
     if (!name) return '';
     return name.split(' ').map(n => n[0]).join('');
 });
+
+// NEW: Helper to get display name (customName or name)
+Handlebars.registerHelper('displayName', function(user) {
+    return user.customName || user.name;
+});
