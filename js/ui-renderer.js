@@ -8,6 +8,10 @@ function renderExhibitors() {
     userIndicatorTippyInstances.forEach(instance => instance.destroy());
     userIndicatorTippyInstances = [];
 
+    console.log('renderExhibitors called');
+    console.log('showMyFavorites:', showMyFavorites);
+    console.log('activeSharedUsers:', Array.from(activeSharedUsers));
+
     // Filter logic
     if (showMyFavorites && activeSharedUsers.size > 0) {
         const othersUnion = new Set();
@@ -34,28 +38,39 @@ function renderExhibitors() {
         const othersUnion = new Set();
         activeSharedUsers.forEach(userId => {
             const user = sharedUsers.find(u => u.id === userId);
+            console.log('Found user:', user);
             if (user) {
                 user.favorites.forEach(fav => othersUnion.add(fav));
             }
         });
         
+        console.log('othersUnion:', Array.from(othersUnion));
         displayExhibitors = exhibitors.filter(e => othersUnion.has(e.id));
     }
 
-    // Render each exhibitor card
-    grid.innerHTML = displayExhibitors.map(exhibitor => {
-        const usersWhoFavorited = sharedUsers.filter(user => 
-            activeSharedUsers.has(user.id) && user.favorites.includes(exhibitor.id)
-        );
-        
-        const isMyFavorite = myFavorites.has(exhibitor.id);
+    console.log('displayExhibitors count:', displayExhibitors.length);
 
-        return Templates.render('exhibitor-card', {
-            ...exhibitor,
-            usersWhoFavorited,
-            isMyFavorite
-        });
-    }).join('');
+    // Render each exhibitor card
+    try {
+        grid.innerHTML = displayExhibitors.map(exhibitor => {
+            const usersWhoFavorited = sharedUsers.filter(user => 
+                activeSharedUsers.has(user.id) && user.favorites.includes(exhibitor.id)
+            );
+            
+            const isMyFavorite = myFavorites.has(exhibitor.id);
+
+            console.log('Rendering exhibitor:', exhibitor.id, 'usersWhoFavorited:', usersWhoFavorited.length);
+
+            return Templates.render('exhibitor-card', {
+                ...exhibitor,
+                usersWhoFavorited,
+                isMyFavorite
+            });
+        }).join('');
+    } catch (error) {
+        console.error('Error rendering exhibitors:', error);
+        console.error('Error stack:', error.stack);
+    }
 
     // Setup tooltips for user indicators
     setTimeout(() => {
