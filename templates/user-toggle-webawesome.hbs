@@ -16,11 +16,11 @@
         </wa-button>
     {{else}}
         <wa-avatar 
-            initials="22{{#if customName}}{{initials customName}}{{else}}{{initials name}}{{/if}}" 
+            initials="{{#if customName}}{{initials customName}}{{else}}{{initials name}}{{/if}}" 
             label="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}">
         </wa-avatar>
         
-        <div>
+        <div style="display:flex;flex-direction:column">
             <strong>{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}</strong>
             <small>{{favoritesCount}} favoritter</small>
         </div>
