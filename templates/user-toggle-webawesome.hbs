@@ -1,6 +1,6 @@
 {{!-- user-toggle.hbs - Web Awesome 3.0 Version --}}
 
-<wa-card data-user-id="{{id}}">
+<wa-card orientation="horizontal" data-user-id="{{id}}">
     {{#if isEditing}}
         <wa-input 
             size="small" 
@@ -15,12 +15,9 @@
             <wa-icon name="x-lg"></wa-icon>
         </wa-button>
     {{else}}
-        <wa-avatar label="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}">
-            {{#if customName}}
-                {{initials customName}}
-            {{else}}
-                {{initials name}}
-            {{/if}}
+        <wa-avatar 
+            initials="{{#if customName}}{{initials customName}}{{else}}{{initials name}}{{/if}}" 
+            label="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}">
         </wa-avatar>
         
         <strong>{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}</strong>
