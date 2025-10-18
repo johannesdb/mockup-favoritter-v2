@@ -24,7 +24,9 @@
         </div>
         
         <wa-dropdown id="userSettings_{{id}}">
-            <wa-icon-button slot="trigger" name="three-dots-vertical" label="Indstillinger">...</wa-icon-button>
+            <wa-button appearance="icon" slot="trigger" name="three-dots-vertical" label="Indstillinger">
+                <wa-icon name="ellipsis-vertical"></wa-icon>
+            </wa-button>
             <wa-menu>
                 <wa-menu-item data-action="rename" data-user-id="{{id}}">
                     <wa-icon slot="prefix" name="pencil"></wa-icon>

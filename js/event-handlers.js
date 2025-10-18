@@ -272,16 +272,11 @@ function toggleFavorite(id) {
 }
 
 function toggleUser(userId) {
-    console.log('toggleUser called with:', userId); // DEBUG
-    console.log('activeSharedUsers before:', Array.from(activeSharedUsers)); // DEBUG
-    
     if (activeSharedUsers.has(userId)) {
         activeSharedUsers.delete(userId);
     } else {
         activeSharedUsers.add(userId);
     }
-    
-    console.log('activeSharedUsers after:', Array.from(activeSharedUsers)); // DEBUG
     
     updateUsersButton();
     
@@ -292,7 +287,6 @@ function toggleUser(userId) {
         setTimeout(() => setupUsersToggleListeners(), 0);
     }
     
-    console.log('Calling renderExhibitors...'); // DEBUG
     renderExhibitors();
 }
 
@@ -522,11 +516,3 @@ window.cancelEdit = cancelEdit;
 window.startDeviceEdit = startDeviceEdit;
 window.saveDeviceName = saveDeviceName;
 window.cancelDeviceEdit = cancelDeviceEdit;
-
-// Expose for debugging
-window.debugState = function() {
-    console.log('myFavorites:', Array.from(myFavorites));
-    console.log('activeSharedUsers:', Array.from(activeSharedUsers));
-    console.log('sharedUsers:', sharedUsers);
-    console.log('showMyFavorites:', showMyFavorites);
-};
