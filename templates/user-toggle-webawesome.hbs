@@ -1,0 +1,53 @@
+{{!-- user-toggle.hbs - Web Awesome 3.0 Version --}}
+
+<wa-card data-user-id="{{id}}" class="user-toggle {{#if isActive}}active{{/if}}">
+    {{#if isEditing}}
+        <div class="edit-form">
+            <wa-input 
+                size="small" 
+                id="editInput_{{id}}"
+                value="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}"
+                placeholder="Navn">
+            </wa-input>
+            <wa-button variant="success" size="small" onclick="saveName({{id}})">
+                <wa-icon name="check-lg"></wa-icon>
+            </wa-button>
+            <wa-button variant="default" size="small" onclick="cancelEdit()">
+                <wa-icon name="x-lg"></wa-icon>
+            </wa-button>
+        </div>
+    {{else}}
+        <wa-avatar label="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}">
+            {{#if customName}}
+                {{initials customName}}
+            {{else}}
+                {{initials name}}
+            {{/if}}
+        </wa-avatar>
+        
+        <div class="user-info">
+            <div class="user-name">
+                <span class="user-name-text">
+                    {{#if customName}}{{customName}}{{else}}{{name}}{{/if}}
+                </span>
+                <wa-dropdown id="userSettings_{{id}}">
+                    <wa-icon-button slot="trigger" name="three-dots-vertical" label="Indstillinger"></wa-icon-button>
+                    <wa-menu>
+                        <wa-menu-item data-action="rename" data-user-id="{{id}}">
+                            <wa-icon slot="prefix" name="pencil"></wa-icon>
+                            Omdøb
+                        </wa-menu-item>
+                        <wa-divider></wa-divider>
+                        <wa-menu-item data-action="delete" data-user-id="{{id}}" class="danger">
+                            <wa-icon slot="prefix" name="trash"></wa-icon>
+                            Slet
+                        </wa-menu-item>
+                    </wa-menu>
+                </wa-dropdown>
+            </div>
+            <div class="user-count">{{favoritesCount}} favoritter</div>
+        </div>
+        
+        <wa-switch {{#if isActive}}checked{{/if}}></wa-switch>
+    {{/if}}
+</wa-card>

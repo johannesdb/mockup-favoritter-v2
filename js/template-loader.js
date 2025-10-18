@@ -21,7 +21,7 @@ const Templates = {
             'exhibitor-card',
             'sync-modal-active',
             'sync-modal-empty',
-            'user-toggle',
+            'user-toggle-webawesome',
             'users-dropdown-webawesome',
         ];
         

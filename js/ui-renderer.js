@@ -101,7 +101,7 @@ function renderUsersDropdownContent() {
         
         console.log(`User ${user.id} (${displayName}): isActive=${isActive}`);
         
-        return Templates.render('user-toggle', {
+        return Templates.render('user-toggle-webawesome', {
             ...user,
             displayName,
             isActive,
