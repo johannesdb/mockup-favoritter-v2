@@ -22,7 +22,7 @@ const Templates = {
             'sync-modal-active',
             'sync-modal-empty',
             'user-toggle',
-            'users-dropdown',
+            'users-dropdown-webawesome',
         ];
         
         await Promise.all(templateNames.map(name => this.load(name)));

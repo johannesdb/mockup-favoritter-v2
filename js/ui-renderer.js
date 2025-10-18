@@ -110,7 +110,7 @@ function renderUsersDropdownContent() {
         });
     }).join('');
     
-    return Templates.render('users-dropdown', {
+    return Templates.render('users-dropdown-webawesome', {
         hasUsers,
         userToggles,
         showAddInput: showAddFavoritesInput

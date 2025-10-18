@@ -1,0 +1,90 @@
+{{!-- users-dropdown.hbs - Web Awesome Version --}}
+
+{{#if hasUsers}}
+    <sl-card>
+        <div slot="header">Vis favoritter fra:</div>
+        
+        {{{userToggles}}}
+    </sl-card>
+    
+    <sl-button variant="default" outline size="medium" expand id="addFavoritesBtn">
+        <sl-icon slot="prefix" name="plus-lg"></sl-icon>
+        Tilføj delte favoritter
+    </sl-button>
+    
+    {{#if showAddInput}}
+    <sl-card class="add-input-card">
+        <sl-input 
+            label="Navn på deling" 
+            placeholder="F.eks. Kollegaer fra Aarhus"
+            id="favoritesNameInput"
+            size="small">
+            <sl-icon slot="prefix" name="tag"></sl-icon>
+        </sl-input>
+        
+        <sl-input 
+            label="Indsæt delingslink" 
+            placeholder="https://energimesse.dk/share?id=abc123"
+            id="favoritesLinkInput"
+            size="small"
+            class="link-input">
+            <sl-icon slot="prefix" name="link-45deg"></sl-icon>
+        </sl-input>
+        
+        <sl-button-group class="action-buttons">
+            <sl-button variant="primary" size="small" id="submitFavoritesLink">
+                <sl-icon slot="prefix" name="check-lg"></sl-icon>
+                Tilføj
+            </sl-button>
+            <sl-button variant="default" size="small" id="cancelAddFavorites">
+                <sl-icon slot="prefix" name="x-lg"></sl-icon>
+                Annuller
+            </sl-button>
+        </sl-button-group>
+    </sl-card>
+    {{/if}}
+    
+{{else}}
+    <sl-card class="empty-state">
+        <sl-icon name="people" library="default"></sl-icon>
+        <div class="empty-title">Ingen delte favoritter endnu</div>
+        <div class="empty-text">Indsæt et delingslink fra en anden bruger for at se deres favoritter.</div>
+    </sl-card>
+    
+    <sl-button variant="default" outline size="medium" expand id="addFavoritesBtn">
+        <sl-icon slot="prefix" name="plus-lg"></sl-icon>
+        Tilføj delte favoritter
+    </sl-button>
+    
+    {{#if showAddInput}}
+    <sl-card class="add-input-card">
+        <sl-input 
+            label="Navn på deling" 
+            placeholder="F.eks. Kollegaer fra Aarhus"
+            id="favoritesNameInput"
+            size="small">
+            <sl-icon slot="prefix" name="tag"></sl-icon>
+        </sl-input>
+        
+        <sl-input 
+            label="Indsæt delingslink" 
+            placeholder="https://energimesse.dk/share?id=abc123"
+            id="favoritesLinkInput"
+            size="small"
+            class="link-input">
+            <sl-icon slot="prefix" name="link-45deg"></sl-icon>
+        </sl-input>
+        
+        <sl-button-group class="action-buttons">
+            <sl-button variant="primary" size="small" id="submitFavoritesLink">
+                <sl-icon slot="prefix" name="check-lg"></sl-icon>
+                Tilføj
+            </sl-button>
+            <sl-button variant="default" size="small" id="cancelAddFavorites">
+                <sl-icon slot="prefix" name="x-lg"></sl-icon>
+                Annuller
+            </sl-button>
+        </sl-button-group>
+    </sl-card>
+    {{/if}}
+{{/if}}
