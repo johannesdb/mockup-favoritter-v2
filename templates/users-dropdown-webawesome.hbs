@@ -1,90 +1,90 @@
-{{!-- users-dropdown.hbs - Web Awesome Version --}}
+{{!-- users-dropdown.hbs - Web Awesome 3.0 Version --}}
 
 {{#if hasUsers}}
-    <sl-card>
+    <wa-card>
         <div slot="header">Vis favoritter fra:</div>
         
         {{{userToggles}}}
-    </sl-card>
+    </wa-card>
     
-    <sl-button variant="default" outline size="medium" expand id="addFavoritesBtn">
-        <sl-icon slot="prefix" name="plus-lg"></sl-icon>
+    <wa-button variant="default" outline size="medium" expand id="addFavoritesBtn">
+        <wa-icon slot="prefix" name="plus-lg"></wa-icon>
         Tilføj delte favoritter
-    </sl-button>
+    </wa-button>
     
     {{#if showAddInput}}
-    <sl-card class="add-input-card">
-        <sl-input 
+    <wa-card class="add-input-card">
+        <wa-input 
             label="Navn på deling" 
             placeholder="F.eks. Kollegaer fra Aarhus"
             id="favoritesNameInput"
             size="small">
-            <sl-icon slot="prefix" name="tag"></sl-icon>
-        </sl-input>
+            <wa-icon slot="prefix" name="tag"></wa-icon>
+        </wa-input>
         
-        <sl-input 
+        <wa-input 
             label="Indsæt delingslink" 
             placeholder="https://energimesse.dk/share?id=abc123"
             id="favoritesLinkInput"
             size="small"
             class="link-input">
-            <sl-icon slot="prefix" name="link-45deg"></sl-icon>
-        </sl-input>
+            <wa-icon slot="prefix" name="link-45deg"></wa-icon>
+        </wa-input>
         
-        <sl-button-group class="action-buttons">
-            <sl-button variant="primary" size="small" id="submitFavoritesLink">
-                <sl-icon slot="prefix" name="check-lg"></sl-icon>
+        <wa-button-group class="action-buttons">
+            <wa-button variant="primary" size="small" id="submitFavoritesLink">
+                <wa-icon slot="prefix" name="check-lg"></wa-icon>
                 Tilføj
-            </sl-button>
-            <sl-button variant="default" size="small" id="cancelAddFavorites">
-                <sl-icon slot="prefix" name="x-lg"></sl-icon>
+            </wa-button>
+            <wa-button variant="default" size="small" id="cancelAddFavorites">
+                <wa-icon slot="prefix" name="x-lg"></wa-icon>
                 Annuller
-            </sl-button>
-        </sl-button-group>
-    </sl-card>
+            </wa-button>
+        </wa-button-group>
+    </wa-card>
     {{/if}}
     
 {{else}}
-    <sl-card class="empty-state">
-        <sl-icon name="people" library="default"></sl-icon>
+    <wa-card class="empty-state">
+        <wa-icon name="people"></wa-icon>
         <div class="empty-title">Ingen delte favoritter endnu</div>
         <div class="empty-text">Indsæt et delingslink fra en anden bruger for at se deres favoritter.</div>
-    </sl-card>
+    </wa-card>
     
-    <sl-button variant="default" outline size="medium" expand id="addFavoritesBtn">
-        <sl-icon slot="prefix" name="plus-lg"></sl-icon>
+    <wa-button variant="default" outline size="medium" expand id="addFavoritesBtn">
+        <wa-icon slot="prefix" name="plus-lg"></wa-icon>
         Tilføj delte favoritter
-    </sl-button>
+    </wa-button>
     
     {{#if showAddInput}}
-    <sl-card class="add-input-card">
-        <sl-input 
+    <wa-card class="add-input-card">
+        <wa-input 
             label="Navn på deling" 
             placeholder="F.eks. Kollegaer fra Aarhus"
             id="favoritesNameInput"
             size="small">
-            <sl-icon slot="prefix" name="tag"></sl-icon>
-        </sl-input>
+            <wa-icon slot="prefix" name="tag"></wa-icon>
+        </wa-input>
         
-        <sl-input 
+        <wa-input 
             label="Indsæt delingslink" 
             placeholder="https://energimesse.dk/share?id=abc123"
             id="favoritesLinkInput"
             size="small"
             class="link-input">
-            <sl-icon slot="prefix" name="link-45deg"></sl-icon>
-        </sl-input>
+            <wa-icon slot="prefix" name="link-45deg"></wa-icon>
+        </wa-input>
         
-        <sl-button-group class="action-buttons">
-            <sl-button variant="primary" size="small" id="submitFavoritesLink">
-                <sl-icon slot="prefix" name="check-lg"></sl-icon>
+        <wa-button-group class="action-buttons">
+            <wa-button variant="primary" size="small" id="submitFavoritesLink">
+                <wa-icon slot="prefix" name="check-lg"></wa-icon>
                 Tilføj
-            </sl-button>
-            <sl-button variant="default" size="small" id="cancelAddFavorites">
-                <sl-icon slot="prefix" name="x-lg"></sl-icon>
+            </wa-button>
+            <wa-button variant="default" size="small" id="cancelAddFavorites">
+                <wa-icon slot="prefix" name="x-lg"></wa-icon>
                 Annuller
-            </sl-button>
-        </sl-button-group>
-    </sl-card>
+            </wa-button>
+        </wa-button-group>
+    </wa-card>
     {{/if}}
 {{/if}}
