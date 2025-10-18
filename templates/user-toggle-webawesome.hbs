@@ -1,5 +1,3 @@
-{{!-- user-toggle.hbs - Web Awesome 3.0 Version --}}
-
 <wa-card orientation="horizontal" data-user-id="{{id}}">
     {{#if isEditing}}
         <wa-input 
@@ -20,13 +18,13 @@
             label="{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}">
         </wa-avatar>
         
-        <div style="display:flex;flex-direction:column">
+        <div>
             <strong>{{#if customName}}{{customName}}{{else}}{{name}}{{/if}}</strong>
             <small>{{favoritesCount}} favoritter</small>
         </div>
         
         <wa-dropdown id="userSettings_{{id}}">
-            <wa-icon-button slot="trigger" name="three-dots-vertical" label="Indstillinger"></wa-icon-button>
+            <wa-icon-button slot="trigger" name="three-dots-vertical" label="Indstillinger">...</wa-icon-button>
             <wa-menu>
                 <wa-menu-item data-action="rename" data-user-id="{{id}}">
                     <wa-icon slot="prefix" name="pencil"></wa-icon>
@@ -39,8 +37,7 @@
                 </wa-menu-item>
             </wa-menu>
         </wa-dropdown>
-        
-        
+           
         <wa-switch data-user-id="{{id}}" id="userSettings_{{id}}" {{#if isActive}}checked{{/if}}></wa-switch>
     {{/if}}
 </wa-card>
