@@ -618,7 +618,44 @@ function shouldShowNotification(type) {
 }
 
 // Show notification as toast
+// Play notification sound using Web Audio API
+function playNotificationSound() {
+    try {
+        // Create audio context
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Create oscillator for a pleasant two-tone notification
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Configure sound - a pleasant "ding" sound
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime); // First tone
+        oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1); // Second tone (lower)
+
+        // Volume envelope - fade in and out
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01); // Quick fade in
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.1); // Sustain
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2); // Fade out
+
+        // Play the sound
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.2);
+
+        console.log('🔔 Notification sound played');
+    } catch (error) {
+        console.log('Sound not available:', error.message);
+    }
+}
+
 function showNotificationToast(notification) {
+    // Play notification sound
+    playNotificationSound();
+
     const toast = document.createElement('div');
     toast.className = 'notification-toast';
     toast.style.cssText = `
@@ -722,25 +759,64 @@ function renderNotificationHistory() {
         return;
     }
 
-    listEl.innerHTML = filtered.map(notif => {
-        const timeAgo = getTimeAgo(notif.timestamp);
-        return `
-            <div class="notif-item ${notif.shown ? 'shown' : 'filtered'}">
-                <div class="notif-item-header">
-                    <div class="notif-icon">${notif.icon}</div>
-                    <div class="notif-meta">
-                        <div class="notif-type">${notif.type}</div>
-                        <div class="notif-time">${timeAgo}</div>
+    // Group notifications by day
+    const grouped = {
+        'I dag': [],
+        'I går': [],
+        'Ældre': []
+    };
+
+    filtered.forEach(notif => {
+        const category = getDayCategory(notif.timestamp);
+        grouped[category].push(notif);
+    });
+
+    // Render grouped notifications
+    let html = '';
+    ['I dag', 'I går', 'Ældre'].forEach(dayCategory => {
+        if (grouped[dayCategory].length > 0) {
+            html += `<div class="day-group-header">${dayCategory}</div>`;
+            html += grouped[dayCategory].map(notif => {
+                const timeAgo = getTimeAgo(notif.timestamp);
+                return `
+                    <div class="notif-item ${notif.shown ? 'shown' : 'filtered'} ${notif.read ? 'read' : 'unread'}">
+                        <div class="notif-item-header">
+                            <div class="notif-icon">${notif.icon}</div>
+                            <div class="notif-meta">
+                                <div class="notif-type">${notif.type}</div>
+                                <div class="notif-time">${timeAgo}</div>
+                            </div>
+                            <span class="notif-status ${notif.shown ? 'shown' : 'filtered'}">
+                                ${notif.shown ? 'VIST' : 'FILTRERET'}
+                            </span>
+                        </div>
+                        <div class="notif-title">${notif.title}</div>
+                        <div class="notif-body">${notif.body}</div>
+                        ${!notif.read ? '<div class="unread-indicator"></div>' : ''}
                     </div>
-                    <span class="notif-status ${notif.shown ? 'shown' : 'filtered'}">
-                        ${notif.shown ? 'VIST' : 'FILTRERET'}
-                    </span>
-                </div>
-                <div class="notif-title">${notif.title}</div>
-                <div class="notif-body">${notif.body}</div>
-            </div>
-        `;
-    }).join('');
+                `;
+            }).join('');
+        }
+    });
+
+    listEl.innerHTML = html;
+}
+
+// Get day category for grouping
+function getDayCategory(timestamp) {
+    const notifDate = new Date(timestamp);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    // Reset time to midnight for comparison
+    const notifDay = new Date(notifDate.getFullYear(), notifDate.getMonth(), notifDate.getDate());
+    const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const yesterdayDay = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+
+    if (notifDay.getTime() === todayDay.getTime()) return 'I dag';
+    if (notifDay.getTime() === yesterdayDay.getTime()) return 'I går';
+    return 'Ældre';
 }
 
 // Get time ago string
@@ -781,6 +857,19 @@ document.addEventListener('DOMContentLoaded', () => {
             renderNotificationHistory();
             showToast('Historik ryddet');
         }
+    });
+
+    // Mark all as read
+    document.getElementById('markAllReadBtn').addEventListener('click', () => {
+        const unreadCount = state.notifHistory.filter(n => !n.read).length;
+        if (unreadCount === 0) {
+            showToast('Alle notifikationer er allerede læst', 'info');
+            return;
+        }
+
+        state.notifHistory.forEach(n => n.read = true);
+        renderNotificationHistory();
+        showToast(`${unreadCount} notifikation${unreadCount !== 1 ? 'er' : ''} markeret som læst`, 'success');
     });
 });
 

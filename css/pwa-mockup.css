@@ -1077,6 +1077,32 @@ body {
     color: white;
 }
 
+.mark-all-read-btn {
+    margin-left: auto;
+    padding: 8px 16px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mark-all-read-btn:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.mark-all-read-btn:active {
+    transform: translateY(0);
+}
+
 .notif-history-list {
     flex: 1;
     overflow-y: auto;
@@ -1103,6 +1129,21 @@ body {
 .empty-history small {
     font-size: 13px;
     color: #999;
+}
+
+.day-group-header {
+    font-size: 14px;
+    font-weight: 700;
+    color: #667eea;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 20px 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.day-group-header:first-child {
+    margin-top: 0;
 }
 
 .notif-item {
@@ -1198,6 +1239,36 @@ body {
     font-size: 14px;
     color: #666;
     line-height: 1.4;
+}
+
+.notif-item.unread {
+    border-left: 4px solid #667eea;
+    background: #fafbff;
+}
+
+.unread-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    background: #667eea;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.1);
+    }
+}
+
+.notif-item.read .unread-indicator {
+    display: none;
 }
 
 .notif-history-footer {
