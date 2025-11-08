@@ -164,6 +164,11 @@ body {
     font-weight: 700;
 }
 
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
 .header-btn {
     width: 36px;
     height: 36px;
@@ -175,6 +180,7 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
 }
 
 .header-btn:hover {
@@ -185,6 +191,37 @@ body {
     width: 20px;
     height: 20px;
     stroke: white;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid #667eea;
+    animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Install Banner */

@@ -604,6 +604,9 @@ function sendRandomNotification() {
         showNotificationToast(notification);
     }
 
+    // Update badge count
+    updateNotificationBadge();
+
     // Update history if modal is open
     if (document.getElementById('notifHistoryModal').style.display !== 'none') {
         renderNotificationHistory();
@@ -829,6 +832,19 @@ function getTimeAgo(timestamp) {
     return `${Math.floor(seconds / 86400)}d siden`;
 }
 
+// Update notification badge count
+function updateNotificationBadge() {
+    const badgeEl = document.getElementById('notifBadge');
+    const unreadCount = state.notifHistory.filter(n => !n.read && n.shown).length;
+
+    if (unreadCount > 0) {
+        badgeEl.textContent = unreadCount > 99 ? '99+' : unreadCount;
+        badgeEl.style.display = 'flex';
+    } else {
+        badgeEl.style.display = 'none';
+    }
+}
+
 // Setup notification history interactions
 document.addEventListener('DOMContentLoaded', () => {
     // Close modal
@@ -855,6 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirm('Er du sikker på du vil rydde historikken?')) {
             state.notifHistory = [];
             renderNotificationHistory();
+            updateNotificationBadge();
             showToast('Historik ryddet');
         }
     });
@@ -869,7 +886,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         state.notifHistory.forEach(n => n.read = true);
         renderNotificationHistory();
+        updateNotificationBadge();
         showToast(`${unreadCount} notifikation${unreadCount !== 1 ? 'er' : ''} markeret som læst`, 'success');
+    });
+
+    // Open notification history
+    document.getElementById('notificationBtn').addEventListener('click', () => {
+        showNotificationHistory();
     });
 });
 
