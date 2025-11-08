@@ -175,6 +175,9 @@ function setupInteractions() {
         }
     });
 
+    // Notification preferences toggles
+    setupNotificationPreferences();
+
     // Pull to refresh simulation
     let pullStart = 0;
     let pulling = false;
@@ -225,6 +228,69 @@ function setupInteractions() {
             showToast('Scan QR kode eller indtast link');
         });
     }
+}
+
+// Notification Preferences Management
+function setupNotificationPreferences() {
+    // Initialize notification preferences state (would be in Dexie in real app)
+    const notificationPrefs = {
+        visitor: true,
+        employee: true,
+        staff: true,
+        system: true
+    };
+
+    // Get all notification toggles
+    const notifToggles = document.querySelectorAll('[name^="notif-"]');
+
+    notifToggles.forEach(toggle => {
+        // Set initial state from preferences
+        const type = toggle.name.replace('notif-', '');
+        toggle.checked = notificationPrefs[type];
+
+        // Handle changes
+        toggle.addEventListener('change', (e) => {
+            const enabled = e.target.checked;
+
+            // Update state (in real app: save to Dexie + sync to server)
+            notificationPrefs[type] = enabled;
+
+            // Show feedback with appropriate message
+            const messages = {
+                visitor: {
+                    on: '👥 Besøgende notifikationer aktiveret',
+                    off: '👥 Besøgende notifikationer deaktiveret'
+                },
+                employee: {
+                    on: '💼 Medarbejder notifikationer aktiveret',
+                    off: '💼 Medarbejder notifikationer deaktiveret'
+                },
+                staff: {
+                    on: '🏢 Personale beskeder aktiveret',
+                    off: '🏢 Personale beskeder deaktiveret'
+                },
+                system: {
+                    on: '⚙️ System notifikationer aktiveret',
+                    off: '⚙️ System notifikationer deaktiveret'
+                }
+            };
+
+            const message = messages[type]?.[enabled ? 'on' : 'off'] ||
+                           `Notifikationer ${enabled ? 'aktiveret' : 'deaktiveret'}`;
+
+            showToast(message);
+
+            // Simulate server sync (in real app)
+            if (enabled) {
+                console.log(`✓ Server: ${type} notifications enabled for user`);
+            } else {
+                console.log(`✗ Server: ${type} notifications disabled for user`);
+            }
+
+            // Log the current state
+            console.log('Notification Preferences:', notificationPrefs);
+        });
+    });
 }
 
 // Helper Functions

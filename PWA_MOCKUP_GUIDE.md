@@ -90,8 +90,17 @@ I toppen af siden finder du tre toggle-knapper til at simulere forskellige tilst
 ### Indstillinger Tab (Mere)
 Dette er den vigtigste del af mockup'en! Viser:
 
+#### Notifikationer (NYT!)
+- **Besøgende aktivitet** - Toggle switch (👥)
+  - Når andre deler eller favorit-markerer
+- **Medarbejder aktivitet** - Toggle switch (💼)
+  - Når kollegaer deler eller kommenterer
+- **Personale beskeder** - Toggle switch (🏢)
+  - Vigtige meddelelser fra arrangøren
+- **System notifikationer** - Toggle switch (⚙️)
+  - App updates og synkronisering
+
 #### Generelt
-- **Push notifikationer** - Toggle switch
 - **Installer app** - Action button
 - **Sprog** - Language selector
 
@@ -107,6 +116,49 @@ Dette er den vigtigste del af mockup'en! Viser:
 - **Version** - App version (1.0.0-beta)
 - **Privatlivspolitik** - Link med chevron
 - **Vilkår & betingelser** - Link med chevron
+
+## 🔔 Notification Preferences Feature
+
+### Sådan tester du:
+
+1. **Åbn mockup'en** i browser (`pwa-mockup.html`)
+2. **Klik på "Mere" tab** i bottom navigation (⚙️ ikon)
+3. **Scroll til "Notifikationer" sektionen** (øverst)
+4. **Toggle en af de 4 notification types:**
+   - 👥 Besøgende aktivitet
+   - 💼 Medarbejder aktivitet
+   - 🏢 Personale beskeder
+   - ⚙️ System notifikationer
+
+5. **Se feedback:**
+   - Toast notification vises med bekræftelse
+   - Browser console logger server sync simulation
+   - State opdateres i baggrunden
+
+### Hvordan det virker i mockup:
+
+```javascript
+// Når toggle ændres:
+1. Local state opdateres (ville være Dexie i rigtig app)
+2. Toast notification vises til bruger
+3. Console log simulerer server API call
+4. State logges for debugging
+
+// I rigtig app ville der også ske:
+- Dexie database update
+- HTTP PUT til /api/notifications/preferences
+- Background sync hvis offline
+```
+
+### Implementation noter:
+
+**Hybrid Model:**
+- Server-side filtering (primær)
+- Client-side fallback (backup)
+- Optimistic UI updates
+- Auto-sync mellem enheder
+
+**Se også:** Arkitektur dokumentation i commit message for detaljer om server-side vs client-side filtrering.
 
 ## 🎨 Design Features
 
