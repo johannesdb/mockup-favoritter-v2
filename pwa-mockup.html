@@ -22,6 +22,13 @@
             <input type="checkbox" id="installBannerToggle">
             <span>⬇️ Install Banner</span>
         </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="notifSimulatorToggle">
+            <span>🔔 Notification Simulator</span>
+        </label>
+        <button class="mockup-btn" id="showNotifHistoryBtn">
+            📜 Notification History
+        </button>
     </div>
 
     <!-- Device Frame (iPhone mockup) -->
@@ -493,6 +500,50 @@
             <!-- Safe Area Bottom (for iOS) -->
             <div class="safe-area-bottom"></div>
 
+        </div>
+    </div>
+
+    <!-- Notification History Modal -->
+    <div class="notif-history-modal" id="notifHistoryModal" style="display: none;">
+        <div class="notif-history-overlay"></div>
+        <div class="notif-history-content">
+            <div class="notif-history-header">
+                <h2>Notification History</h2>
+                <button class="close-modal-btn" id="closeNotifHistoryBtn">×</button>
+            </div>
+
+            <div class="notif-history-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="statTotal">0</span>
+                    <span class="stat-label">Total</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value shown" id="statShown">0</span>
+                    <span class="stat-label">Vist</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value filtered" id="statFiltered">0</span>
+                    <span class="stat-label">Filtreret</span>
+                </div>
+            </div>
+
+            <div class="notif-history-filters">
+                <button class="filter-btn active" data-filter="all">Alle</button>
+                <button class="filter-btn" data-filter="shown">Vist</button>
+                <button class="filter-btn" data-filter="filtered">Filtreret</button>
+            </div>
+
+            <div class="notif-history-list" id="notifHistoryList">
+                <div class="empty-history">
+                    <div class="empty-icon">📭</div>
+                    <p>Ingen notifikationer endnu</p>
+                    <small>Aktiver "Notification Simulator" for at se demo</small>
+                </div>
+            </div>
+
+            <div class="notif-history-footer">
+                <button class="clear-history-btn" id="clearHistoryBtn">Ryd historik</button>
+            </div>
         </div>
     </div>
 

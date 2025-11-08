@@ -5,8 +5,14 @@ let state = {
     pwaMode: true,
     offlineMode: false,
     installBanner: false,
-    currentTab: 'tabUdstillere'
+    currentTab: 'tabUdstillere',
+    notifSimulator: false,
+    notifHistory: [],
+    notifFilter: 'all'
 };
+
+// Notification Simulator
+let notifSimulatorInterval = null;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,6 +64,26 @@ function setupControls() {
         } else {
             installBanner.style.display = 'none';
         }
+    });
+
+    // Notification Simulator Toggle
+    const notifSimulatorToggle = document.getElementById('notifSimulatorToggle');
+    notifSimulatorToggle.addEventListener('change', (e) => {
+        state.notifSimulator = e.target.checked;
+
+        if (state.notifSimulator) {
+            startNotificationSimulator();
+            showToast('🔔 Notification Simulator startet');
+        } else {
+            stopNotificationSimulator();
+            showToast('🔔 Notification Simulator stoppet');
+        }
+    });
+
+    // Show Notification History Button
+    const showNotifHistoryBtn = document.getElementById('showNotifHistoryBtn');
+    showNotifHistoryBtn.addEventListener('click', () => {
+        showNotificationHistory();
     });
 }
 
@@ -476,3 +502,311 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// ===== NOTIFICATION SIMULATOR =====
+
+// Notification templates
+const notificationTemplates = [
+    {
+        type: 'visitor',
+        icon: '👥',
+        templates: [
+            { title: 'Maria Jensen', body: 'Har delt 5 favoritter med dig' },
+            { title: 'Ny besøgende', body: 'Lars har favorit-markeret ALBA LIGHTING' },
+            { title: 'Anna Schmidt', body: 'Har tilføjet 3 nye favoritter' },
+            { title: 'Besøgende aktivitet', body: 'Sophie har delt en liste med 8 udstillere' }
+        ]
+    },
+    {
+        type: 'employee',
+        icon: '💼',
+        templates: [
+            { title: 'Kollega deling', body: 'Peter har kommenteret på din favorit' },
+            { title: 'Team opdatering', body: 'Din gruppe har nu 15 delte favoritter' },
+            { title: 'Medarbejder', body: 'Maria har inviteret dig til et møde ved stand 11' }
+        ]
+    },
+    {
+        type: 'staff',
+        icon: '🏢',
+        templates: [
+            { title: 'Vigtig besked', body: 'Messen åbner om 30 minutter' },
+            { title: 'Arrangør', body: 'Ny keynote speaker annonceret - Se program' },
+            { title: 'Event opdatering', body: 'Workshop i Hal 3 starter om 15 min' }
+        ]
+    },
+    {
+        type: 'system',
+        icon: '⚙️',
+        templates: [
+            { title: 'Synkronisering', body: 'Dine favoritter er synkroniseret på tværs af enheder' },
+            { title: 'App opdatering', body: 'Ny version tilgængelig - Opdater nu' },
+            { title: 'Data backup', body: 'Dine data er sikkerhedskopieret' }
+        ]
+    }
+];
+
+// Start notification simulator
+function startNotificationSimulator() {
+    // Clear any existing interval
+    stopNotificationSimulator();
+
+    // Send first notification immediately
+    sendRandomNotification();
+
+    // Then send one every 10-60 seconds
+    notifSimulatorInterval = setInterval(() => {
+        sendRandomNotification();
+    }, getRandomInterval(10000, 60000)); // 10-60 seconds
+
+    console.log('📡 Notification Simulator started');
+}
+
+// Stop notification simulator
+function stopNotificationSimulator() {
+    if (notifSimulatorInterval) {
+        clearInterval(notifSimulatorInterval);
+        notifSimulatorInterval = null;
+        console.log('📡 Notification Simulator stopped');
+    }
+}
+
+// Send random notification
+function sendRandomNotification() {
+    // Pick random type
+    const template = notificationTemplates[Math.floor(Math.random() * notificationTemplates.length)];
+    const notif = template.templates[Math.floor(Math.random() * template.templates.length)];
+
+    // Create notification object
+    const notification = {
+        id: Date.now(),
+        type: template.type,
+        icon: template.icon,
+        title: notif.title,
+        body: notif.body,
+        timestamp: Date.now(),
+        shown: shouldShowNotification(template.type),
+        read: false
+    };
+
+    // Add to history
+    state.notifHistory.unshift(notification);
+
+    // Log to console
+    console.log(`📬 Notification ${notification.shown ? 'SHOWN' : 'FILTERED'}:`, {
+        type: notification.type,
+        title: notification.title,
+        shown: notification.shown
+    });
+
+    // If should be shown, display toast
+    if (notification.shown) {
+        showNotificationToast(notification);
+    }
+
+    // Update history if modal is open
+    if (document.getElementById('notifHistoryModal').style.display !== 'none') {
+        renderNotificationHistory();
+    }
+}
+
+// Check if notification should be shown based on preferences
+function shouldShowNotification(type) {
+    // Get preference for this type (from notification preferences)
+    const checkbox = document.querySelector(`[name="notif-${type}"]`);
+    return checkbox ? checkbox.checked : true;
+}
+
+// Show notification as toast
+function showNotificationToast(notification) {
+    const toast = document.createElement('div');
+    toast.className = 'notification-toast';
+    toast.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: white;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        max-width: 320px;
+        z-index: 9999;
+        animation: slideInRight 0.3s ease;
+        border-left: 4px solid #667eea;
+    `;
+
+    toast.innerHTML = `
+        <div style="display: flex; align-items: start; gap: 12px;">
+            <div style="font-size: 24px;">${notification.icon}</div>
+            <div style="flex: 1;">
+                <div style="font-weight: 600; font-size: 14px; color: #333; margin-bottom: 4px;">
+                    ${notification.title}
+                </div>
+                <div style="font-size: 13px; color: #666; line-height: 1.4;">
+                    ${notification.body}
+                </div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                background: none;
+                border: none;
+                font-size: 20px;
+                color: #999;
+                cursor: pointer;
+                padding: 0;
+                width: 24px;
+                height: 24px;
+            ">×</button>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
+
+// Get random interval between min and max
+function getRandomInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// ===== NOTIFICATION HISTORY =====
+
+// Show notification history modal
+function showNotificationHistory() {
+    const modal = document.getElementById('notifHistoryModal');
+    modal.style.display = 'flex';
+    renderNotificationHistory();
+}
+
+// Hide notification history modal
+function hideNotificationHistory() {
+    const modal = document.getElementById('notifHistoryModal');
+    modal.style.display = 'none';
+}
+
+// Render notification history
+function renderNotificationHistory() {
+    const listEl = document.getElementById('notifHistoryList');
+    const filter = state.notifFilter;
+
+    // Filter notifications
+    let filtered = state.notifHistory;
+    if (filter === 'shown') {
+        filtered = state.notifHistory.filter(n => n.shown);
+    } else if (filter === 'filtered') {
+        filtered = state.notifHistory.filter(n => !n.shown);
+    }
+
+    // Update stats
+    const total = state.notifHistory.length;
+    const shown = state.notifHistory.filter(n => n.shown).length;
+    const filteredCount = state.notifHistory.filter(n => !n.shown).length;
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statShown').textContent = shown;
+    document.getElementById('statFiltered').textContent = filteredCount;
+
+    // Render list
+    if (filtered.length === 0) {
+        listEl.innerHTML = `
+            <div class="empty-history">
+                <div class="empty-icon">📭</div>
+                <p>${filter === 'all' ? 'Ingen notifikationer endnu' : `Ingen ${filter === 'shown' ? 'viste' : 'filtrerede'} notifikationer`}</p>
+                <small>Aktiver "Notification Simulator" for at se demo</small>
+            </div>
+        `;
+        return;
+    }
+
+    listEl.innerHTML = filtered.map(notif => {
+        const timeAgo = getTimeAgo(notif.timestamp);
+        return `
+            <div class="notif-item ${notif.shown ? 'shown' : 'filtered'}">
+                <div class="notif-item-header">
+                    <div class="notif-icon">${notif.icon}</div>
+                    <div class="notif-meta">
+                        <div class="notif-type">${notif.type}</div>
+                        <div class="notif-time">${timeAgo}</div>
+                    </div>
+                    <span class="notif-status ${notif.shown ? 'shown' : 'filtered'}">
+                        ${notif.shown ? 'VIST' : 'FILTRERET'}
+                    </span>
+                </div>
+                <div class="notif-title">${notif.title}</div>
+                <div class="notif-body">${notif.body}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Get time ago string
+function getTimeAgo(timestamp) {
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+    if (seconds < 60) return `${seconds}s siden`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m siden`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}t siden`;
+    return `${Math.floor(seconds / 86400)}d siden`;
+}
+
+// Setup notification history interactions
+document.addEventListener('DOMContentLoaded', () => {
+    // Close modal
+    document.getElementById('closeNotifHistoryBtn').addEventListener('click', hideNotificationHistory);
+    document.querySelector('.notif-history-overlay').addEventListener('click', hideNotificationHistory);
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            state.notifFilter = filter;
+
+            // Update active state
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Re-render
+            renderNotificationHistory();
+        });
+    });
+
+    // Clear history
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+        if (confirm('Er du sikker på du vil rydde historikken?')) {
+            state.notifHistory = [];
+            renderNotificationHistory();
+            showToast('Historik ryddet');
+        }
+    });
+});
+
+// Add animation CSS for notification toast
+const notifStyle = document.createElement('style');
+notifStyle.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(notifStyle);
