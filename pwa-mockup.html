@@ -49,8 +49,13 @@
             </div>
 
             <!-- App Header -->
-            <header class="app-header">
-                <h1 class="app-title">Favoritter</h1>
+            <header class="app-header" id="appHeader">
+                <button class="header-btn back-btn" id="backBtn" style="display: none;" aria-label="Tilbage">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <h1 class="app-title" id="appTitle">Favoritter</h1>
                 <div class="header-actions">
                     <button class="header-btn" id="notificationBtn" aria-label="Notifikationer">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -465,6 +470,45 @@
                     </div>
                 </div>
 
+                <!-- Tab Content: Notifikationer -->
+                <div class="tab-content" id="tabNotifikationer">
+                    <div class="notif-page-stats">
+                        <div class="stat-item">
+                            <span class="stat-value" id="statTotal">0</span>
+                            <span class="stat-label">Total</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value shown" id="statShown">0</span>
+                            <span class="stat-label">Vist</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value filtered" id="statFiltered">0</span>
+                            <span class="stat-label">Filtreret</span>
+                        </div>
+                    </div>
+
+                    <div class="notif-page-filters">
+                        <button class="filter-btn active" data-filter="all">Alle</button>
+                        <button class="filter-btn" data-filter="shown">Vist</button>
+                        <button class="filter-btn" data-filter="filtered">Filtreret</button>
+                        <button class="mark-all-read-btn" id="markAllReadBtn">
+                            ✓ Marker alle som læst
+                        </button>
+                    </div>
+
+                    <div class="notif-page-list" id="notifHistoryList">
+                        <div class="empty-history">
+                            <div class="empty-icon">📭</div>
+                            <p>Ingen notifikationer endnu</p>
+                            <small>Aktiver "Notification Simulator" for at se demo</small>
+                        </div>
+                    </div>
+
+                    <div class="notif-page-footer">
+                        <button class="clear-history-btn" id="clearHistoryBtn">Ryd historik</button>
+                    </div>
+                </div>
+
             </main>
 
             <!-- Bottom Navigation -->
@@ -509,53 +553,6 @@
             <!-- Safe Area Bottom (for iOS) -->
             <div class="safe-area-bottom"></div>
 
-        </div>
-    </div>
-
-    <!-- Notification History Modal -->
-    <div class="notif-history-modal" id="notifHistoryModal" style="display: none;">
-        <div class="notif-history-overlay"></div>
-        <div class="notif-history-content">
-            <div class="notif-history-header">
-                <h2>Notification History</h2>
-                <button class="close-modal-btn" id="closeNotifHistoryBtn">×</button>
-            </div>
-
-            <div class="notif-history-stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="statTotal">0</span>
-                    <span class="stat-label">Total</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value shown" id="statShown">0</span>
-                    <span class="stat-label">Vist</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value filtered" id="statFiltered">0</span>
-                    <span class="stat-label">Filtreret</span>
-                </div>
-            </div>
-
-            <div class="notif-history-filters">
-                <button class="filter-btn active" data-filter="all">Alle</button>
-                <button class="filter-btn" data-filter="shown">Vist</button>
-                <button class="filter-btn" data-filter="filtered">Filtreret</button>
-                <button class="mark-all-read-btn" id="markAllReadBtn">
-                    ✓ Marker alle som læst
-                </button>
-            </div>
-
-            <div class="notif-history-list" id="notifHistoryList">
-                <div class="empty-history">
-                    <div class="empty-icon">📭</div>
-                    <p>Ingen notifikationer endnu</p>
-                    <small>Aktiver "Notification Simulator" for at se demo</small>
-                </div>
-            </div>
-
-            <div class="notif-history-footer">
-                <button class="clear-history-btn" id="clearHistoryBtn">Ryd historik</button>
-            </div>
         </div>
     </div>
 

@@ -6,6 +6,7 @@ let state = {
     offlineMode: false,
     installBanner: false,
     currentTab: 'tabUdstillere',
+    previousTab: null,
     notifSimulator: false,
     notifHistory: [],
     notifFilter: 'all'
@@ -607,8 +608,8 @@ function sendRandomNotification() {
     // Update badge count
     updateNotificationBadge();
 
-    // Update history if modal is open
-    if (document.getElementById('notifHistoryModal').style.display !== 'none') {
+    // Update history if notification page is active
+    if (state.currentTab === 'tabNotifikationer') {
         renderNotificationHistory();
     }
 }
@@ -715,17 +716,42 @@ function getRandomInterval(min, max) {
 
 // ===== NOTIFICATION HISTORY =====
 
-// Show notification history modal
+// Navigate to notification history page
 function showNotificationHistory() {
-    const modal = document.getElementById('notifHistoryModal');
-    modal.style.display = 'flex';
+    // Save current tab to return to
+    state.previousTab = state.currentTab;
+
+    // Switch to notification tab
+    switchTab('tabNotifikationer');
+
+    // Update header
+    document.getElementById('appTitle').textContent = 'Notifikationer';
+    document.getElementById('backBtn').style.display = 'flex';
+    document.querySelector('.header-actions').style.display = 'none';
+
+    // Render notifications
     renderNotificationHistory();
 }
 
-// Hide notification history modal
+// Navigate back from notification history page
 function hideNotificationHistory() {
-    const modal = document.getElementById('notifHistoryModal');
-    modal.style.display = 'none';
+    // Return to previous tab
+    if (state.previousTab) {
+        switchTab(state.previousTab);
+
+        // Update nav buttons
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-tab') === state.previousTab) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // Restore header
+    document.getElementById('appTitle').textContent = 'Favoritter';
+    document.getElementById('backBtn').style.display = 'none';
+    document.querySelector('.header-actions').style.display = 'flex';
 }
 
 // Render notification history
@@ -847,9 +873,8 @@ function updateNotificationBadge() {
 
 // Setup notification history interactions
 document.addEventListener('DOMContentLoaded', () => {
-    // Close modal
-    document.getElementById('closeNotifHistoryBtn').addEventListener('click', hideNotificationHistory);
-    document.querySelector('.notif-history-overlay').addEventListener('click', hideNotificationHistory);
+    // Back button
+    document.getElementById('backBtn').addEventListener('click', hideNotificationHistory);
 
     // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
