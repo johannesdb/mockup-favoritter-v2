@@ -148,6 +148,107 @@ body {
     font-size: 14px;
 }
 
+/* Notification Banner (iOS-style) */
+.notification-banner {
+    position: absolute;
+    top: 44px; /* Below status bar */
+    left: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.notification-banner:active {
+    transform: scale(0.98);
+}
+
+.notification-banner-content {
+    display: flex;
+    align-items: start;
+    gap: 12px;
+}
+
+.notification-banner-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 10px;
+}
+
+.notification-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-banner-app {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.notification-banner-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.notification-banner-body {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.notification-banner-time {
+    font-size: 11px;
+    color: #999;
+    flex-shrink: 0;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+}
+
 /* App Header */
 .app-header {
     background: #667eea;

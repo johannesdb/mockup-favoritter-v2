@@ -660,52 +660,46 @@ function showNotificationToast(notification) {
     // Play notification sound
     playNotificationSound();
 
-    const toast = document.createElement('div');
-    toast.className = 'notification-toast';
-    toast.style.cssText = `
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        background: white;
-        border-radius: 12px;
-        padding: 16px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        max-width: 320px;
-        z-index: 9999;
-        animation: slideInRight 0.3s ease;
-        border-left: 4px solid #667eea;
-    `;
+    // Create banner element
+    const banner = document.createElement('div');
+    banner.className = 'notification-banner';
 
-    toast.innerHTML = `
-        <div style="display: flex; align-items: start; gap: 12px;">
-            <div style="font-size: 24px;">${notification.icon}</div>
-            <div style="flex: 1;">
-                <div style="font-weight: 600; font-size: 14px; color: #333; margin-bottom: 4px;">
-                    ${notification.title}
-                </div>
-                <div style="font-size: 13px; color: #666; line-height: 1.4;">
-                    ${notification.body}
-                </div>
+    // Get type label
+    const typeLabels = {
+        'visitor': 'BESØGENDE',
+        'employee': 'MEDARBEJDER',
+        'staff': 'PERSONALE',
+        'system': 'SYSTEM'
+    };
+
+    banner.innerHTML = `
+        <div class="notification-banner-content">
+            <div class="notification-banner-icon">${notification.icon}</div>
+            <div class="notification-banner-text">
+                <div class="notification-banner-app">FAVORITTER · ${typeLabels[notification.type] || 'NOTIFIKATION'}</div>
+                <div class="notification-banner-title">${notification.title}</div>
+                <div class="notification-banner-body">${notification.body}</div>
             </div>
-            <button onclick="this.parentElement.parentElement.remove()" style="
-                background: none;
-                border: none;
-                font-size: 20px;
-                color: #999;
-                cursor: pointer;
-                padding: 0;
-                width: 24px;
-                height: 24px;
-            ">×</button>
+            <div class="notification-banner-time">nu</div>
         </div>
     `;
 
-    document.body.appendChild(toast);
+    // Click to dismiss
+    banner.addEventListener('click', () => {
+        banner.style.animation = 'slideOutUp 0.3s ease';
+        setTimeout(() => banner.remove(), 300);
+    });
+
+    // Append to device screen (not body)
+    const deviceScreen = document.querySelector('.device-screen');
+    deviceScreen.appendChild(banner);
 
     // Auto-remove after 5 seconds
     setTimeout(() => {
-        toast.style.animation = 'slideOutRight 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
+        if (banner.parentElement) {
+            banner.style.animation = 'slideOutUp 0.3s ease';
+            setTimeout(() => banner.remove(), 300);
+        }
     }, 5000);
 }
 
@@ -920,30 +914,3 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotificationHistory();
     });
 });
-
-// Add animation CSS for notification toast
-const notifStyle = document.createElement('style');
-notifStyle.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(notifStyle);
