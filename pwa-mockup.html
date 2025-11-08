@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <title>Favoritter - PWA Mockup</title>
+    <link rel="stylesheet" href="css/pwa-mockup.css">
+</head>
+<body class="pwa-mode">
+    <!-- PWA Mode Toggle (kun for mockup demo) -->
+    <div class="mockup-controls">
+        <label class="toggle-label">
+            <input type="checkbox" id="pwaToggle" checked>
+            <span>📱 PWA Mode (standalone)</span>
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="offlineToggle">
+            <span>📡 Offline Mode</span>
+        </label>
+        <label class="toggle-label">
+            <input type="checkbox" id="installBannerToggle">
+            <span>⬇️ Install Banner</span>
+        </label>
+    </div>
+
+    <!-- Device Frame (iPhone mockup) -->
+    <div class="device-frame" id="deviceFrame">
+        <div class="device-notch"></div>
+        <div class="device-screen">
+
+            <!-- Status Bar (iOS/Android style) -->
+            <div class="status-bar">
+                <div class="status-left">
+                    <span class="status-time">14:23</span>
+                </div>
+                <div class="status-right">
+                    <span class="status-icon" id="onlineStatus">📡</span>
+                    <span class="status-icon">📶</span>
+                    <span class="status-icon">🔋</span>
+                </div>
+            </div>
+
+            <!-- App Header -->
+            <header class="app-header">
+                <h1 class="app-title">Favoritter</h1>
+                <button class="header-btn" id="searchBtn" aria-label="Søg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </header>
+
+            <!-- Install Banner (dismissible) -->
+            <div class="install-banner" id="installBanner" style="display: none;">
+                <div class="install-content">
+                    <div class="install-icon">📱</div>
+                    <div class="install-text">
+                        <strong>Installer appen</strong>
+                        <p>Få hurtigere adgang og brug offline</p>
+                    </div>
+                    <button class="install-btn-primary">Installer</button>
+                    <button class="install-btn-close" aria-label="Luk">×</button>
+                </div>
+            </div>
+
+            <!-- Pull to Refresh Indicator -->
+            <div class="pull-refresh-indicator" id="pullRefreshIndicator">
+                <div class="refresh-spinner"></div>
+            </div>
+
+            <!-- Offline Banner -->
+            <div class="offline-banner" id="offlineBanner" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+                    <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                </svg>
+                <span>Du er offline - Ændringer gemmes automatisk</span>
+            </div>
+
+            <!-- Main Content -->
+            <main class="app-content" id="appContent">
+
+                <!-- Tab Content: Udstillere -->
+                <div class="tab-content active" id="tabUdstillere">
+                    <div class="exhibitors-grid">
+                        <!-- Sample Cards -->
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn favorited" aria-label="Fjern fra favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="user-indicators">
+                                <span class="user-indicator" style="background: #e74c3c;" title="Maria Jensen">M</span>
+                                <span class="user-indicator" style="background: #2ecc71;" title="Anna Schmidt">A</span>
+                            </div>
+                            <div class="exhibitor-icon">💡</div>
+                            <h3 class="exhibitor-name">ALBA LIGHTING</h3>
+                            <p class="exhibitor-stand">Stand 11</p>
+                        </div>
+
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn" aria-label="Tilføj til favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="exhibitor-icon">🔥</div>
+                            <h3 class="exhibitor-name">AUTOPRO SYSTEMS</h3>
+                            <p class="exhibitor-stand">Stand 3-11</p>
+                        </div>
+
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn favorited" aria-label="Fjern fra favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="exhibitor-icon">🌿</div>
+                            <h3 class="exhibitor-name">BIOENERGY INST.</h3>
+                            <p class="exhibitor-stand">Stand 1S-13</p>
+                        </div>
+
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn" aria-label="Tilføj til favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="user-indicators">
+                                <span class="user-indicator" style="background: #9b59b6;" title="Sophie Hansen">S</span>
+                            </div>
+                            <div class="exhibitor-icon">♻️</div>
+                            <h3 class="exhibitor-name">CIRCUPRO</h3>
+                            <p class="exhibitor-stand">Stand 5-12</p>
+                        </div>
+
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn favorited" aria-label="Fjern fra favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="exhibitor-icon">🔋</div>
+                            <h3 class="exhibitor-name">ECOPOWER</h3>
+                            <p class="exhibitor-stand">Stand 1-24</p>
+                        </div>
+
+                        <div class="exhibitor-card">
+                            <button class="card-favorite-btn" aria-label="Tilføj til favoritter">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="exhibitor-icon">⚡</div>
+                            <h3 class="exhibitor-name">ELECFIX PRO</h3>
+                            <p class="exhibitor-stand">Stand 2-21</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Mine Favoritter -->
+                <div class="tab-content" id="tabFavoritter">
+                    <div class="favorites-header">
+                        <h2>Mine Favoritter</h2>
+                        <button class="share-button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="18" cy="5" r="3"></circle>
+                                <circle cx="6" cy="12" r="3"></circle>
+                                <circle cx="18" cy="19" r="3"></circle>
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                            </svg>
+                            Del
+                        </button>
+                    </div>
+
+                    <div class="favorites-count">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                        <span>4 favoritter gemt</span>
+                    </div>
+
+                    <div class="favorites-list">
+                        <div class="favorite-item">
+                            <div class="favorite-icon">💡</div>
+                            <div class="favorite-info">
+                                <h3>ALBA LIGHTING</h3>
+                                <p>Stand 11</p>
+                            </div>
+                            <button class="favorite-remove" aria-label="Fjern">×</button>
+                        </div>
+                        <div class="favorite-item">
+                            <div class="favorite-icon">🌿</div>
+                            <div class="favorite-info">
+                                <h3>BIOENERGY INST.</h3>
+                                <p>Stand 1S-13</p>
+                            </div>
+                            <button class="favorite-remove" aria-label="Fjern">×</button>
+                        </div>
+                        <div class="favorite-item">
+                            <div class="favorite-icon">🔋</div>
+                            <div class="favorite-info">
+                                <h3>ECOPOWER</h3>
+                                <p>Stand 1-24</p>
+                            </div>
+                            <button class="favorite-remove" aria-label="Fjern">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Delte -->
+                <div class="tab-content" id="tabDelte">
+                    <div class="shared-header">
+                        <h2>Andres Favoritter</h2>
+                    </div>
+
+                    <div class="shared-list">
+                        <div class="shared-user">
+                            <div class="shared-avatar" style="background: #e74c3c;">M</div>
+                            <div class="shared-info">
+                                <h3>Maria Jensen</h3>
+                                <p>7 favoritter delt</p>
+                            </div>
+                            <button class="toggle-shared">
+                                <div class="toggle-indicator active"></div>
+                            </button>
+                        </div>
+
+                        <div class="shared-user">
+                            <div class="shared-avatar" style="background: #2ecc71;">A</div>
+                            <div class="shared-info">
+                                <h3>Anna Schmidt</h3>
+                                <p>9 favoritter delt</p>
+                            </div>
+                            <button class="toggle-shared">
+                                <div class="toggle-indicator"></div>
+                            </button>
+                        </div>
+
+                        <div class="shared-user">
+                            <div class="shared-avatar" style="background: #9b59b6;">S</div>
+                            <div class="shared-info">
+                                <h3>Sophie Hansen</h3>
+                                <p>8 favoritter delt</p>
+                            </div>
+                            <button class="toggle-shared">
+                                <div class="toggle-indicator active"></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="add-share-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Tilføj delt liste
+                    </button>
+                </div>
+
+                <!-- Tab Content: Indstillinger -->
+                <div class="tab-content" id="tabIndstillinger">
+                    <div class="settings-header">
+                        <h2>Indstillinger</h2>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Generelt</h3>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">🔔</div>
+                                <div class="settings-info">
+                                    <h4>Push notifikationer</h4>
+                                    <p>Modtag beskeder om delte favoritter</p>
+                                </div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">📱</div>
+                                <div class="settings-info">
+                                    <h4>Installer app</h4>
+                                    <p>Tilføj til hjemmeskærm for hurtig adgang</p>
+                                </div>
+                            </div>
+                            <button class="settings-action-btn">Installer</button>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">🌐</div>
+                                <div class="settings-info">
+                                    <h4>Sprog</h4>
+                                    <p>Dansk</p>
+                                </div>
+                            </div>
+                            <button class="settings-action-btn">Skift</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Synkronisering</h3>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">🔄</div>
+                                <div class="settings-info">
+                                    <h4>Synkroniser enheder</h4>
+                                    <p>3 enheder forbundet</p>
+                                </div>
+                            </div>
+                            <button class="settings-action-btn">Administrer</button>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">📤</div>
+                                <div class="settings-info">
+                                    <h4>Eksporter data</h4>
+                                    <p>Download dine favoritter</p>
+                                </div>
+                            </div>
+                            <button class="settings-action-btn">Eksporter</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Data & Lagring</h3>
+
+                        <div class="settings-storage">
+                            <div class="storage-info">
+                                <span class="storage-label">Brugt lagring</span>
+                                <span class="storage-value">2.4 MB af 50 MB</span>
+                            </div>
+                            <div class="storage-bar">
+                                <div class="storage-fill" style="width: 4.8%"></div>
+                            </div>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">🗑️</div>
+                                <div class="settings-info">
+                                    <h4>Ryd cache</h4>
+                                    <p>Frigør plads på din enhed</p>
+                                </div>
+                            </div>
+                            <button class="settings-action-btn">Ryd</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="section-title">Om</h3>
+
+                        <div class="settings-item">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">ℹ️</div>
+                                <div class="settings-info">
+                                    <h4>Version</h4>
+                                    <p>1.0.0-beta</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-item clickable">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">📄</div>
+                                <div class="settings-info">
+                                    <h4>Privatlivspolitik</h4>
+                                </div>
+                            </div>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+
+                        <div class="settings-item clickable">
+                            <div class="settings-item-content">
+                                <div class="settings-icon">📋</div>
+                                <div class="settings-info">
+                                    <h4>Vilkår & betingelser</h4>
+                                </div>
+                            </div>
+                            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav">
+                <button class="nav-item active" data-tab="tabUdstillere">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>Udstillere</span>
+                </button>
+
+                <button class="nav-item" data-tab="tabFavoritter">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span>Favoritter</span>
+                    <span class="nav-badge">4</span>
+                </button>
+
+                <button class="nav-item" data-tab="tabDelte">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Delte</span>
+                </button>
+
+                <button class="nav-item" data-tab="tabIndstillinger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m-8.66-7.5 5.196 3m6.928 4 5.196 3m0-15-5.196 3m-6.928 4-5.196 3"></path>
+                    </svg>
+                    <span>Mere</span>
+                </button>
+            </nav>
+
+            <!-- Safe Area Bottom (for iOS) -->
+            <div class="safe-area-bottom"></div>
+
+        </div>
+    </div>
+
+    <script src="js/pwa-mockup.js"></script>
+</body>
+</html>
